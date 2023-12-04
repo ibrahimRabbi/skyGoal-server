@@ -39,7 +39,23 @@ async function run() {
               const insertedUser = await userCollaction.insertOne(req.body)
               res.send(insertedUser)
            }
-       
+      })
+
+      app.post('/signin', async (req, res) => {
+          const data = req.body
+          const findFromDatabase = await userCollaction.findOne({ email: data.email })
+          if (findFromDatabase) {
+              res.send({status:true})
+          } else {
+              res.send({ msg: 'ivalid user please provide a valid email and password' })
+          }
+        //   const findFromDatabase = await userCollaction.findOne({
+        //       $and: [
+        //           { email: data.email },
+        //           {password:data.password}
+        //       ]
+        //   })
+        //   console.log(findFromDatabase)
       })
 
       app.listen(port, () => {
